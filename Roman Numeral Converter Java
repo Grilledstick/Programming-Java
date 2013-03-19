@@ -1,0 +1,194 @@
+import java.awt.event.*;
+import java.applet.*;
+import java.awt.*;
+
+public class Roman extends Applet implements ActionListener {
+  
+	Button calc = new Button("Calculate: ");
+	Button clear = new Button("Clear: ");
+	TextField tal = new TextField(13);
+	TextField svar = new TextField(13);
+	
+	int N = 0;
+	int I = 1;
+	int V = 5;
+	int X = 10;
+	int L = 50;
+	int C = 100;
+	int D = 500;
+	int M = 1000;
+	
+	public void init(){
+		setSize(300, 200);
+		add(calc);
+		calc.addActionListener(this);
+		add(clear);
+		clear.addActionListener(this);
+		add(tal);
+		add(svar);
+	}
+	
+	public void actionPerformed(ActionEvent ae){				
+		String Mq = "";
+		String Dq = "";
+		String Cq = "";
+		String Lq = "";
+		String Xq = "";
+		String Vq = "";
+		String Iq = "";
+		String sammanSättning = "";
+		int talOmvandling;
+
+		if(ae.getSource() == calc){
+			String input = tal.getText();
+			talOmvandling = Integer.parseInt(input);
+			int antalM = (talOmvandling - (talOmvandling % M)) / M;
+			boolean skip100 = false;
+			
+			int antalD = ((talOmvandling - (antalM*1000)) - (talOmvandling % D)) / D;
+			
+			int antalC = ((talOmvandling - (antalM*1000) - (antalD*500))
+			- (talOmvandling % C)) / C;		
+			
+			int antalL = ((talOmvandling - (antalM*1000) - (antalD*500)
+			- (antalC*100)) - (talOmvandling % L)) / L;		
+			
+			int antalX = ((talOmvandling - (antalM*1000) - (antalD*500)
+			- (antalC*100) - (antalL*50)) - (talOmvandling % X)) / X;	
+					
+			int antalV = ((talOmvandling - (antalM*1000) - (antalD*500)
+			- (antalC*100) - (antalL*50) - (antalX*10)) - (talOmvandling % V)) / V;	
+					
+			int antalI = ((talOmvandling - (antalM*1000) - (antalD*500)
+			- (antalC*100) - (antalL*50) - (antalX*10) - (antalV*5)) - 
+			(talOmvandling % I)) / I;
+						
+			for (int i = 0; i < antalM; i++){
+				Mq = Mq + "M";	
+			}	
+			if(antalC * 100 + antalD * 500 == 900){
+					Mq = Mq + "CM";
+					skip100 = true;
+			}	
+			if (!skip100) {
+				for (int i = 0; i < antalD; i++){
+					Dq = Dq + "D";
+				}
+			}			
+			if (!skip100) {
+				for (int i = 0; i < antalC; i++){
+					Cq = Cq + "C";
+				}
+			}				
+			if(antalC*100 == 400 && talOmvandling < 500){
+				Cq = "CD";
+			}	
+			for (int i = 0; i < antalL; i++){
+				Lq = Lq + "L";
+			}
+			if(antalC*100 + antalL*50 == 450 && talOmvandling < 500){
+				Dq = "CDL";
+				Cq = "";
+				Lq = "";
+			}	
+			for (int i = 0; i < antalX; i++){
+				Xq = Xq + "X";
+			}
+			if(antalX*10 == 40){
+				Xq = "XL";
+			}	
+			if(antalL*50 + antalX*10 == 90){
+				Xq = "XC";
+				Lq = "";
+			}	
+			for (int i = 0; i < antalV; i++){
+				Vq = Vq + "V";
+			}
+			for (int i = 0; i < antalI; i++){
+				Iq = Iq + "I";
+			}
+			if(antalV*5 + antalI*1 == 9){
+				Vq = "IX";
+				Iq = "";
+			}
+			if(antalV*5 + antalI*1 == 4){
+				Iq = "IV";
+				Vq = "";
+			}
+			if(antalC*100 + antalL*50 + antalX*10 + antalV*5 + antalI*1 == 499){
+				Dq = "CDXCIX";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";
+			}
+			if(antalD*500 + antalC*100 + antalL*50 + antalX*10 + antalV*5 + antalI*1 == 999){
+				Dq = "XCIX";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";
+			}
+			if(antalD*500 + antalC*100 + antalL*50 + antalX*10 + antalV*5 + antalI*1 == 959){
+				Dq = "LIX";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";			
+			}		
+			if(antalD*500 + antalC*100 + antalL*50 + antalX*10 + antalV*5 + antalI*1 == 969){
+				Dq = "LXIX";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";			
+			}	
+			if(antalD*500 + antalC*100 + antalL*50 + antalX*10 + antalV*5 + antalI*1 == 979){
+				Dq = "LXXIX";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";			
+			}
+			if(antalD*500 + antalC*100 + antalL*50 + antalX*10 + antalV*5 + antalI*1 == 989){
+				Dq = "LXXXIX";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";			
+			}	
+			if(antalM*1000 + antalD*500 + antalC*100 + antalL*50 + antalX*10
+			+ antalV*5 + antalI*1 == 0){
+				Mq = "N";
+				Dq = "";
+				Cq = "";
+				Lq = "";
+				Xq = "";
+				Vq = "";
+				Iq = "";
+			}	
+																			
+			sammanSättning = Mq + Dq + Cq + Lq + Xq + Vq + Iq;						
+			svar.setText(sammanSättning);
+		}
+		if(ae.getSource() == clear){
+			tal.setText("");
+			svar.setText("");
+			sammanSättning = "";
+			Mq = "";
+			Dq = "";
+			Cq = "";
+			Lq = "";
+			Xq = "";
+			Vq = "";
+			Iq = "";
+		}		
+					
+	}
+}			
