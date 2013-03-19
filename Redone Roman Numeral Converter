@@ -1,0 +1,149 @@
+import java.awt.event.*;
+import java.applet.*;
+import java.awt.*;
+
+public class Roman2 extends Applet implements ActionListener {
+  
+	Button bntCalc = new Button("Convert: ");
+	Button bntClear = new Button("Clear: ");
+	TextField txtInputDecimal = new TextField(15);
+	TextField txtOutputRoman = new TextField(15);
+	Label lblAnswer = new Label("Answer: ");
+	Label lblDecimal = new Label("Insert number: ");
+	String roman = "";
+	String numberToConvert;
+	
+	int decimal;
+	int N = 0;
+	int I = 1;
+	int V = 5;
+	int X = 10;
+	int L = 50;
+	int C = 100;
+	int D = 500;
+	int M = 1000;
+	//Do not really need an "int howManyN" since if there is one, there cannot be more than one.
+	int howManyI;
+	int howManyV;
+	int howManyX;
+	int howManyL;
+	int howManyC;
+	int howManyD;
+	int howManyM;
+	
+	public void init(){
+		setSize(160, 300);
+		add(lblDecimal);
+		add(txtInputDecimal);
+		add(bntCalc);
+		add(bntClear);
+		add(lblAnswer);
+		add(txtOutputRoman);
+		bntCalc.addActionListener(this);
+		bntClear.addActionListener(this);
+	}
+	
+	public void Converter(){
+		howManyM = (decimal - (decimal % M)) / M;
+		decimal -= howManyM * M;
+		
+		howManyD = (decimal - (decimal % D)) / D;
+		decimal -= howManyD * D;
+		
+		howManyC = (decimal - (decimal % C)) / C;
+		decimal -= howManyC * C;
+		
+		howManyL = (decimal - (decimal % L)) / L;
+		decimal -= howManyL * L;
+		
+		howManyX = (decimal - (decimal % X)) / X;
+		decimal -= howManyX * X;
+		
+		howManyV = (decimal - (decimal % V)) / V;
+		decimal -= howManyV * V;
+		
+		howManyI = (decimal - (decimal % I)) / I;
+		decimal -= howManyI * I;
+		
+		for(int n = 0; n < howManyM; n++){
+				roman += "M";
+		}
+		
+		if((howManyD * D) + (howManyC * C) < (M - C)){
+		
+			for(int n = 0; n < howManyD; n++){
+				roman += "D";
+			}
+			
+			if((howManyC * C) < (D - C)){
+				for(int n = 0; n < howManyC; n++){
+					roman += "C";
+				}
+			}
+			
+			else{
+				roman += "CD";
+			}	
+					
+		}
+		
+		else{
+			roman += "CM";
+		}
+				
+		if((howManyL * L) + (howManyX * X) < (C - X)){
+			for(int n = 0; n < howManyL; n++){
+				roman += "L";
+			}
+			
+			if((howManyX * X) < (L - X)){
+				for(int n = 0; n < howManyX; n++){
+					roman += "X";
+				}
+			}
+			
+			else{
+				roman += "XL";
+			}		
+		}
+		
+		else{
+			roman += "XC";
+		}
+			
+		if((howManyV * V) + (howManyI * I) < (X - I)){		
+			for(int n = 0; n < howManyV; n++){
+				roman += "V";
+			}
+			
+			if((howManyI * I) < (V - I)){
+				for(int n = 0; n < howManyI; n++){
+					roman += "I";
+				}
+			}
+			
+			else{
+				roman += "IV";
+			}
+		}
+		
+		else{
+			roman += "IX";
+		}											
+	}	
+			
+	public void actionPerformed(ActionEvent ae){
+		if(ae.getSource() == bntCalc){
+			numberToConvert = txtInputDecimal.getText();
+			decimal = Integer.parseInt(numberToConvert);
+			Converter();
+			txtOutputRoman.setText(roman + "");
+		}
+		
+		if(ae.getSource() == bntClear){
+			txtOutputRoman.setText("");
+			txtInputDecimal.setText("");
+			roman = "";
+		}			
+	}		
+}
